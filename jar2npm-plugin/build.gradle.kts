@@ -193,6 +193,7 @@ tasks {
     }
     publish {
         dependsOn(bintrayUpload)
+        dependsOn(publishPlugins)
 //        dependsOn(bintrayPublish)
     }
 
