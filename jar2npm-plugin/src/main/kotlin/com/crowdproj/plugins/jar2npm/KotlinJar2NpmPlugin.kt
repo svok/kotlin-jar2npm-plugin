@@ -20,17 +20,11 @@ class KotlinJar2NpmPlugin : Plugin<Project> {
 
             val jar2NpmTask = tasks.register(
                 jar2npm,
-                KotlinJar2NpmTask::class.java,
-                Action<KotlinJar2NpmTask> {
-                    //                        latestArtifactVersion.getServerUrl().set(extension.getServerUrl())
-                })
+                KotlinJar2NpmTask::class.java
+            )
 
-            jar2NpmTask.get().dependsOn("yarnSetup")
+            jar2NpmTask.get().dependsOn("yarn_install")
             tasks.getByName("processResources").dependsOn(jar2NpmTask)
-//
-//            configurations.maybeCreate(jar2npm)
-//                .setVisible(false)
-//                .description = "Copy Kotlin JAR packages to node_modules"
         }
     }
 

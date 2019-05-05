@@ -4,7 +4,7 @@ import groovy.json.JsonBuilder
 import org.gradle.api.DefaultTask
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -14,7 +14,7 @@ import java.nio.file.Files
 /**
  * Task that extracts extracs data from jar packages into npm ones
  */
-open class KotlinJar2NpmTask: DefaultTask() {
+open class KotlinJar2NpmTask : DefaultTask() {
 
     private val log = LoggerFactory.getLogger(this::class.java)!!
 
@@ -32,7 +32,7 @@ open class KotlinJar2NpmTask: DefaultTask() {
     /**
      * A reference to the `node_modules` directory
      */
-    @OutputFile
+    @OutputDirectory
     val nodeModules = project
         .projectDir
         .resolve("node_modules")
@@ -44,8 +44,8 @@ open class KotlinJar2NpmTask: DefaultTask() {
     /**
      * A reference to the folder with extracted jar packages
      */
-    @OutputFile
-    val nodeModulesProxy = project
+    @OutputDirectory
+    val nodeModulesImported = project
         .buildDir
         .resolve("node_modules_imported")
         .mkDirOrFail()
@@ -63,10 +63,12 @@ open class KotlinJar2NpmTask: DefaultTask() {
      * The task that extracts data from Jar packages into `node_modules` npm package
      */
     @TaskAction
-    fun createJacocoProperties() {
+    fun jar2npm() {
+        log.info("Starting jar2npm")
         val allJars = conf
             .resolvedConfiguration
             .resolvedArtifacts
+        log.debug("All JARs: {}", allJars.map { it.name })
 
         val names = allJars
             .filter { it.file.isFile && it.file.exists() }
@@ -84,7 +86,7 @@ open class KotlinJar2NpmTask: DefaultTask() {
                 val name = metaName.replace("\\.meta\\.js\$".toRegex(), "")
                 val js = "$name.js"
 
-                val outDir = nodeModulesProxy.resolve(name).mkDirOrFail()
+                val outDir = nodeModulesImported.resolve(name).mkDirOrFail()
                 project.copy {
                     it.from(project.zipTree(file))
                     it.into(outDir)
@@ -104,12 +106,11 @@ open class KotlinJar2NpmTask: DefaultTask() {
             .filter { it.isNotBlank() }
 
 
-        doLast {
-            names.forEach { name ->
-                println("NAME for symlink")
-                val outDir = nodeModulesProxy.resolve(name).mkDirOrFail()
-                nodeModules.resolve(name).ensureSymlink(outDir)
-            }
+        log.info("Create symlinks: {}", names)
+        names.forEach { name ->
+            val outDir = nodeModulesImported.resolve(name).mkDirOrFail()
+            log.debug("Create symlink for {} to {}", name, outDir)
+            nodeModules.resolve(name).ensureSymlink(outDir)
         }
     }
 }
