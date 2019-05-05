@@ -22,7 +22,7 @@ JS frameworks: [kotlin-jar2npm-plugin](https://github.com/svok/kotlin-jar2npm-pl
 This plugin extracts the content of the KotlinJS JAR-packages to node_modules package repository
 and allows KotlinJS code available in all other JavaScript projects.
 
-This plugin is build with the usage of [Moorwork Node Gradle plugin](https://plugins.gradle.org/plugin/com.moowork.node).
+This plugin is build with the usage of [Moowork Node Gradle plugin](https://plugins.gradle.org/plugin/com.moowork.node).
 So, you can keep your own `package.json` in the root of your KotlinJS project and use all the power of `NodeJS`.
 
 ## Use in your projects
