@@ -6,24 +6,62 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
 
+/**
+ * Task that extracts extracs data from jar packages into npm ones
+ */
 open class KotlinJar2NpmTask: DefaultTask() {
-    @Input
-    val conf: Configuration = project.configurations.getByName("testRuntimeClasspath")
 
+    private val log = LoggerFactory.getLogger(this::class.java)!!
+
+    /**
+     * The configuration used to extract all dependencies
+     */
+    @Input
+    val conf: Configuration = project
+        .configurations
+        .getByName("testRuntimeClasspath")
+        .also {
+            log.debug("Setting default configuration: {}", it.name)
+        }
+
+    /**
+     * A reference to the `node_modules` directory
+     */
     @OutputFile
-    val nmReal = project.projectDir.resolve("node_modules").mkDirOrFail()
+    val nodeModules = project
+        .projectDir
+        .resolve("node_modules")
+        .mkDirOrFail()
+        .also {
+            log.debug("Setting default node_modules: {}", it.absoluteFile)
+        }
+
+    /**
+     * A reference to the folder with extracted jar packages
+     */
     @OutputFile
-    val nmImported = project.buildDir.resolve("node_modules_imported").mkDirOrFail()
+    val nodeModulesProxy = project
+        .buildDir
+        .resolve("node_modules_imported")
+        .mkDirOrFail()
+        .also {
+            log.debug("Setting default node_modules_imported: {}", it.absoluteFile)
+        }
 
     init {
         group = "node"
-        description = "Attaches Kotlin JAR files to node_modules"
+        description = "Attach Kotlin JAR files to node_modules"
     }
 
+
+    /**
+     * The task that extracts data from Jar packages into `node_modules` npm package
+     */
     @TaskAction
     fun createJacocoProperties() {
         val allJars = conf
@@ -46,7 +84,7 @@ open class KotlinJar2NpmTask: DefaultTask() {
                 val name = metaName.replace("\\.meta\\.js\$".toRegex(), "")
                 val js = "$name.js"
 
-                val outDir = nmImported.resolve(name).mkDirOrFail()
+                val outDir = nodeModulesProxy.resolve(name).mkDirOrFail()
                 project.copy {
                     it.from(project.zipTree(file))
                     it.into(outDir)
@@ -68,8 +106,9 @@ open class KotlinJar2NpmTask: DefaultTask() {
 
         doLast {
             names.forEach { name ->
-                val outDir = nmImported.resolve(name).mkDirOrFail()
-                nmReal.resolve(name).ensureSymlink(outDir)
+                println("NAME for symlink")
+                val outDir = nodeModulesProxy.resolve(name).mkDirOrFail()
+                nodeModules.resolve(name).ensureSymlink(outDir)
             }
         }
     }

@@ -5,8 +5,14 @@ import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+/**
+ * Main class of the plugin. It registers all dependency plugins and all required tasks
+ */
 class KotlinJar2NpmPlugin : Plugin<Project> {
 
+    /**
+     * Main method for registering all necessary plugins and tasks
+     */
     override fun apply(project: Project) {
         with(project) {
             plugins.apply(com.moowork.gradle.node.NodePlugin::class.java)
