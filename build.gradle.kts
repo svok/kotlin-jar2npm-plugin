@@ -23,7 +23,7 @@ plugins {
 }
 
 group = "com.crowdproj.plugins"
-version = "0.1.15"
+version = "1.0.1"
 
 subprojects {
     group = rootProject.group
