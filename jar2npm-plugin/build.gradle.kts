@@ -159,8 +159,8 @@ tasks {
     }
 
     bintray {
-        user = System.getenv("bintrayUser")?.toString() ?: ""
-        key = System.getenv("bintrayApiKey")?.toString() ?: ""
+        user = System.getenv("bintrayUser")?.toString() ?: extra.properties["bintrayUser"] as? String ?: ""
+        key = System.getenv("bintrayApiKey")?.toString() ?: extra.properties["bintrayApiKey"] as? String ?: ""
         override = true
         setPublications("mavenJava")
 

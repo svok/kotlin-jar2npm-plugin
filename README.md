@@ -5,9 +5,6 @@ JavaScript projects like React, Angular, etc.
 
 ## About the project
 
-For an example see [Sample multiplatform and multi-frontend Kotlin project](https://github.com/svok/kotlin-multiplatform-sample)
-especially [Reactfront module](https://github.com/svok/kotlin-multiplatform-sample/tree/master/proj-reactfront). 
-
 Kotlin multiplatform uses JAR packages by default as a target build. It brings no problems is your project is targeted to 
 the JVM platform. But as you want to build a joined backend-frontend system with a multiplatform module
 you get an anoying headacke with convertion of JavaScript JAR packages to the standard NodeJs packagins system. 
@@ -27,7 +24,31 @@ So, you can keep your own `package.json` in the root of your KotlinJS project an
 
 ## Use in your projects
 
+In `build.gradle.kts`:
 ```kotlin
-
+plugins {
+  id("com.crowdproj.plugins.jar2npm") version "0.1.15"
+}
 ```
 
+In `settings.bradle.kts`:
+```kotlin
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { setUrl("https://dl.bintray.com/svok/jar2npm") }
+    }
+    resolutionStrategy {
+        eachPlugin {
+            when (requested.id.id) {
+                "com.crowdproj.plugins.jar2npm" -> useModule("com.crowdproj.plugins:jar2npm-plugin:${requested.version}")
+            }
+        }
+    }
+}
+```
+
+## Example
+
+For an example see [Sample multiplatform and multi-frontend Kotlin project](https://github.com/svok/kotlin-multiplatform-sample)
+especially [Reactfront module](https://github.com/svok/kotlin-multiplatform-sample/tree/master/proj-reactfront). 

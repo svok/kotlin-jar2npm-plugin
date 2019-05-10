@@ -8,8 +8,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             when(requested.id.id) {
-//                "kotlin-multiplatform" -> useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
-//                "org.jetbrains.kotlin.jvm" -> useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
+//                "com.crowdproj.plugins.jar2npm" -> useModule("com.crowdproj.plugins:jar2npm-plugin:${requested.version}")
             }
         }
     }
@@ -22,7 +21,6 @@ pluginManagement {
         }
         maven { setUrl("https://plugins.gradle.org/m2/") }
         maven { setUrl("https://dl.bintray.com/kotlin/kotlin") }
-//        maven { setUrl("https://dl.bintray.com/svok/jar2npm") }
     }
 }
 
