@@ -72,7 +72,7 @@ tasks {
         impliedPlatforms = mutableListOf("Common", "JVM")
 
         // dokka fails to retrieve sources from MPP-tasks so they must be set empty to avoid exception
-        kotlinTasks(closureOf<Any?> { emptyList<Any?>() })
+//        kotlinTasks(closureOf<Any?> { emptyList<Any?>() })
     }
 
     val jar by getting(Jar::class) {
