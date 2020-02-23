@@ -4,6 +4,7 @@ import groovy.json.JsonBuilder
 import org.gradle.api.DefaultTask
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory
@@ -21,7 +22,7 @@ open class KotlinJar2NpmTask : DefaultTask() {
     /**
      * The configuration used to extract all dependencies
      */
-    @Input
+    @InputFiles
     val conf: Configuration = project
         .configurations
         .getByName("testRuntimeClasspath")
