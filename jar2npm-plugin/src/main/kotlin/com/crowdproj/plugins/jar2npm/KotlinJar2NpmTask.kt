@@ -92,12 +92,17 @@ open class KotlinJar2NpmTask : DefaultTask() {
                     it.from(project.zipTree(file))
                     it.into(outDir)
                 }
-                val packageJson = mapOf(
+                val packageJson = mutableMapOf(
                     "name" to name,
                     "version" to version,
                     "main" to js,
                     "_source" to "gradle"
                 )
+
+                val ts = "$name.d.ts"
+                if(File(outDir,ts).exists()) {
+                    packageJson["types"] = ts
+                }
 
                 outDir.resolve("package.json").bufferedWriter().use { out ->
                     out.appendln(JsonBuilder(packageJson).toPrettyString())
