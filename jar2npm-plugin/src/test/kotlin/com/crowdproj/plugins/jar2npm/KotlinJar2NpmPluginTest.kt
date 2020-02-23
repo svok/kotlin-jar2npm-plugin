@@ -12,7 +12,7 @@ internal class KotlinJar2NpmPluginTest {
     val project: Project by lazy {
         ProjectBuilder.builder().build().also {
             it.pluginManager.apply(KotlinJar2NpmPlugin::class.java)
-            it.dependencies.add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-js:1.3.31")
+            it.dependencies.add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-js:1.3.61")
         }
     }
 

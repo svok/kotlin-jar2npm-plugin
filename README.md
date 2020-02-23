@@ -27,7 +27,7 @@ So, you can keep your own `package.json` in the root of your KotlinJS project an
 In `build.gradle.kts`:
 ```kotlin
 plugins {
-  id("com.crowdproj.plugins.jar2npm") version "0.1.15"
+  id("com.crowdproj.plugins.jar2npm") version "1.0.3"
 }
 ```
 

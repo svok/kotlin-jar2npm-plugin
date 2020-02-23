@@ -5,13 +5,28 @@ rootProject.buildFileName = "build.gradle.kts"
 include("jar2npm-plugin")
 
 pluginManagement {
-    resolutionStrategy {
-        eachPlugin {
-            when(requested.id.id) {
-//                "com.crowdproj.plugins.jar2npm" -> useModule("com.crowdproj.plugins:jar2npm-plugin:${requested.version}")
-            }
-        }
+
+    val kotlin_version: String by settings
+    val gradlePluginPublishVersion: String by settings
+    val jfrogBintrayVersion: String by settings
+    val dokkaVersion: String by settings
+    val nemerosaVersion: String by settings
+
+    plugins {
+        kotlin("jvm") version kotlin_version apply false
+        id("com.gradle.plugin-publish") version gradlePluginPublishVersion apply false
+        id("com.jfrog.bintray") version jfrogBintrayVersion apply false
+        id("org.jetbrains.dokka") version dokkaVersion apply false
+        id("net.nemerosa.versioning") version nemerosaVersion apply false
     }
+
+//    resolutionStrategy {
+//        eachPlugin {
+//            when(requested.id.id) {
+////                "com.crowdproj.plugins.jar2npm" -> useModule("com.crowdproj.plugins:jar2npm-plugin:${requested.version}")
+//            }
+//        }
+//    }
 
     repositories {
         mavenCentral()
