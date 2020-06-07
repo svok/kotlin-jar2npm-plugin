@@ -24,7 +24,7 @@ internal class KotlinJar2NpmPluginTest {
 
     @Test
     fun nodePluginLoaded() {
-        val pluginName = "com.moowork.node"
+        val pluginName = "com.github.node-gradle.node"
         val plugin = project.plugins.findPlugin(pluginName)
         assertThat(plugin).isInstanceOf(Plugin::class.java)
     }

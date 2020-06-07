@@ -1,7 +1,6 @@
 package com.crowdproj.plugins.jar2npm
 
 import com.crowdproj.plugins.jar2npm.Configurations.jar2npm
-import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

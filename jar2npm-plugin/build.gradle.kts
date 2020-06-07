@@ -14,6 +14,12 @@ plugins {
     id("net.nemerosa.versioning")
 }
 
+repositories {
+    maven {
+        url = uri("https://plugins.gradle.org/m2/")
+    }
+}
+
 val junitVersion: String by project
 
 //defaultTasks.add("jar")
@@ -21,14 +27,14 @@ val junitVersion: String by project
 dependencies {
     implementation(gradleApi())
     implementation(kotlin("stdlib-jdk8"))
-    implementation("com.moowork.gradle:gradle-node-plugin:1.3.1")
+    implementation("com.github.node-gradle:gradle-node-plugin:2.2.4")
     implementation(kotlin("gradle-plugin"))
 
     testImplementation(kotlin("test"))
     testImplementation(gradleTestKit())
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.assertj:assertj-core:3.12.2")
 }
 
@@ -144,7 +150,6 @@ tasks {
                             email.set("sokatov@gmail.com")
                         }
                     }
-
                 }
                 from(getComponents().get("kotlin"))
                 artifact(sourcesJar)
@@ -159,8 +164,10 @@ tasks {
     }
 
     bintray {
-        user = System.getenv("bintrayUser")?.toString() ?: extra.properties["bintrayUser"] as? String ?: ""
-        key = System.getenv("bintrayApiKey")?.toString() ?: extra.properties["bintrayApiKey"] as? String ?: ""
+        val bintrayUser: String? by project
+        val bintrayApiKey: String? by project
+        user = bintrayUser ?: System.getenv("bintrayUser")?.toString() ?: ""
+        key = bintrayApiKey ?: System.getenv("bintrayApiKey")?.toString() ?: ""
         override = true
         setPublications("mavenJava")
 
