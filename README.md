@@ -27,24 +27,7 @@ So, you can keep your own `package.json` in the root of your KotlinJS project an
 In `build.gradle.kts`:
 ```kotlin
 plugins {
-  id("com.crowdproj.plugins.jar2npm") version "2.0.0"
-}
-```
-
-In `settings.bradle.kts`:
-```kotlin
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven { setUrl("https://dl.bintray.com/svok/jar2npm") }
-    }
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "com.crowdproj.plugins.jar2npm" -> useModule("com.crowdproj.plugins:jar2npm-plugin:${requested.version}")
-            }
-        }
-    }
+  id("com.crowdproj.plugins.jar2npm") version "3.0.1"
 }
 ```
 
@@ -52,3 +35,8 @@ pluginManagement {
 
 For an example see [Sample multiplatform and multi-frontend Kotlin project](https://github.com/svok/kotlin-multiplatform-sample)
 especially [Reactfront module](https://github.com/svok/kotlin-multiplatform-sample/tree/master/proj-reactfront). 
+
+## Compatibility
+
+1. jar2npm 2.0.0: supported kotlin 1.3.x 
+1. jar2npm 3.0.0: supported kotlin 1.4.x 

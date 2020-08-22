@@ -21,13 +21,14 @@ repositories {
 }
 
 val junitVersion: String by project
+val nodePluginVersion: String by project
 
 //defaultTasks.add("jar")
 
 dependencies {
     implementation(gradleApi())
     implementation(kotlin("stdlib-jdk8"))
-    implementation("com.github.node-gradle:gradle-node-plugin:2.2.4")
+    implementation("com.github.node-gradle:gradle-node-plugin:$nodePluginVersion")
     implementation(kotlin("gradle-plugin"))
 
     testImplementation(kotlin("test"))
